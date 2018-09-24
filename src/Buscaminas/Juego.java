@@ -5,7 +5,11 @@
  */
 package Buscaminas;
 
+import static com.sun.java.accessibility.util.AWTEventMonitor.addActionListener;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Random;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -18,11 +22,13 @@ public class Juego extends javax.swing.JFrame {
 
     JLabel casilla[][] = new JLabel[10][10];
     JButton botonsito[][] = new JButton[10][10];
-    Casilla miCasilla=new Casilla();
+    Casilla miCasilla[][]=new Casilla[10][10];
+    Random aleatorio=new Random();
     
     public Juego() {
         initComponents();
         crearCasilla();
+        ponerMinas();
     }
     
     void crearCasilla(){
@@ -32,13 +38,39 @@ public class Juego extends javax.swing.JFrame {
                 casilla[i][j].setBounds(20*i+42,20*j+82,20,20);
                 casilla[i][j].setBorder(BorderFactory.createLineBorder(Color.black));
                 add(casilla[i][j]);
+                miCasilla[i][j]=new Casilla();
+            }
+        }
+        for (int i=0; i<10; i++){
+            for (int j=0; j<10; j++){
                 botonsito[i][j]=new JButton();
                 botonsito[i][j].setBounds(20*i+40,20*j+80,25,25);
                 add(botonsito[i][j]);
+                botonsito[i][j].setVisible(true);
+                botonsito[i][j].addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        
+                    }
+                });
             }
         }
     }
-
+    void ponerMinas(){
+        for(int i=0;i<15;i++){
+            int a=aleatorio.nextInt(10);
+            int b=aleatorio.nextInt(10);
+            if(miCasilla[a][b].mina==false){
+                miCasilla[a][b].mina=true;
+            }else{
+                i=i-1;
+            }
+        }
+        
+    }
+    
+   
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -48,21 +80,46 @@ public class Juego extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButton1 = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jButton1.setText("jButton1");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(317, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton1)
+                .addContainerGap(266, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        for (int i=0; i<10; i++){
+            for (int j=0; j<10; j++){
+                if(miCasilla[i][j].mina==true){
+                    botonsito[i][j].setVisible(false);
+                }
+            }
+        }
+    }//GEN-LAST:event_jButton1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -100,5 +157,6 @@ public class Juego extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     // End of variables declaration//GEN-END:variables
 }
