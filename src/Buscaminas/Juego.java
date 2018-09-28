@@ -7,10 +7,18 @@ package Buscaminas;
 
 import static com.sun.java.accessibility.util.AWTEventMonitor.addActionListener;
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
@@ -24,6 +32,7 @@ public class Juego extends javax.swing.JFrame {
     JButton botonsito[][] = new JButton[10][10];
     Casilla miCasilla[][]=new Casilla[10][10];
     Random aleatorio=new Random();
+    File miArchivo = new File("Mina.jpg");
     
     public Juego() {
         initComponents();
@@ -34,24 +43,21 @@ public class Juego extends javax.swing.JFrame {
     void crearCasilla(){
         for (int i=0; i<10; i++){
             for (int j=0; j<10; j++){
+                final int p=i;
+                final int q=j;
                 casilla[i][j]=new JLabel();
                 casilla[i][j].setBounds(20*i+42,20*j+82,20,20);
-                casilla[i][j].setBorder(BorderFactory.createLineBorder(Color.black));
+                casilla[i][j].setBorder(BorderFactory.createLineBorder(Color.gray));
                 add(casilla[i][j]);
                 miCasilla[i][j]=new Casilla();
-            }
-        }
-        for (int i=0; i<10; i++){
-            for (int j=0; j<10; j++){
                 botonsito[i][j]=new JButton();
                 botonsito[i][j].setBounds(20*i+40,20*j+80,25,25);
                 add(botonsito[i][j]);
                 botonsito[i][j].setVisible(true);
-                botonsito[i][j].addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        
-                    }
+                casilla[i][j].setVisible(false);
+                botonsito[i][j].addActionListener((ActionEvent e) -> {
+                    botonsito[p][q].setVisible(false);
+                    casilla[p][q].setVisible(true);
                 });
             }
         }
@@ -62,6 +68,15 @@ public class Juego extends javax.swing.JFrame {
             int b=aleatorio.nextInt(10);
             if(miCasilla[a][b].mina==false){
                 miCasilla[a][b].mina=true;
+                try {
+                    BufferedImage miImagen = ImageIO.read(miArchivo);
+                    ImageIcon miIcono = new ImageIcon(miImagen);
+                    Image pequeño = miIcono.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+                    ImageIcon otroIcono = new ImageIcon(pequeño);
+                    casilla[a][b].setIcon(otroIcono);
+                } catch (IOException ex) {
+                    casilla[a][b].setText("*");
+                }
             }else{
                 i=i-1;
             }
