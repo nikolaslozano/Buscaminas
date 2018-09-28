@@ -21,6 +21,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -56,8 +57,7 @@ public class Juego extends javax.swing.JFrame {
                 botonsito[i][j].setVisible(true);
                 casilla[i][j].setVisible(false);
                 botonsito[i][j].addActionListener((ActionEvent e) -> {
-                    botonsito[p][q].setVisible(false);
-                    casilla[p][q].setVisible(true);
+                    verificarMinas(p,q);
                 });
             }
         }
@@ -81,7 +81,30 @@ public class Juego extends javax.swing.JFrame {
                 i=i-1;
             }
         }
-        
+    }
+    void verificarMinas(int a, int b){
+        botonsito[a][b].setVisible(false);
+        casilla[a][b].setVisible(true);
+        if(miCasilla[a][b].mina==true){
+            for(a=0;a<10;a++){
+                for(b=0;b<10;b++){
+                    if(miCasilla[a][b].mina==true){
+                        botonsito[a][b].setVisible(false);
+                        casilla[a][b].setVisible(true);
+                    }
+                }
+            }
+        }else{
+            int cont=0;
+            for(int i=0;i<3;i++){
+                for(int j=0;j<3;j++){
+                    if(miCasilla[a-i][a-j].mina==true){
+                        cont++;
+                    }
+                }
+            }
+            casilla[a][b].setText(String.valueOf(cont));
+        }
     }
     
    
@@ -131,6 +154,7 @@ public class Juego extends javax.swing.JFrame {
             for (int j=0; j<10; j++){
                 if(miCasilla[i][j].mina==true){
                     botonsito[i][j].setVisible(false);
+                    casilla[i][j].setVisible(true);
                 }
             }
         }
