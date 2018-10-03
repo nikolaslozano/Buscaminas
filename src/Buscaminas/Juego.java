@@ -63,7 +63,7 @@ public class Juego extends javax.swing.JFrame {
         }
     }
     void ponerMinas(){
-        for(int i=0;i<15;i++){
+        for(int m=0;m<15;m++){
             int a=aleatorio.nextInt(10);
             int b=aleatorio.nextInt(10);
             if(miCasilla[a][b].mina==false){
@@ -78,7 +78,59 @@ public class Juego extends javax.swing.JFrame {
                     casilla[a][b].setText("*");
                 }
             }else{
-                i=i-1;
+                m=m-1;
+            }
+        }
+        for(int i=0;i<10;i++){
+            for(int j=0;j<10;j++){
+                if(miCasilla[i][j].mina==false){
+                    int cont=0;
+                    try{
+                        if(miCasilla[i-1][j-1].mina==true){
+                        cont++;
+                        }
+                    }catch(Exception miExcepción){}
+                    try{
+                        if(miCasilla[i-1][j].mina==true){
+                        cont++;
+                        }
+                    }catch(Exception miExcepción){}
+                    
+                    try{
+                        if(miCasilla[i-1][j+1].mina==true){
+                        cont++;
+                        }
+                    }catch(Exception miExcepción){}
+                    
+                    try{
+                        if(miCasilla[i][j-1].mina==true){
+                        cont++;
+                        }
+                    }catch(Exception miExcepción){}
+                    try{
+                        if(miCasilla[i][j+1].mina==true){
+                        cont++;
+                        }
+                    }catch(Exception miExcepción){}
+                    
+                    try{
+                        if(miCasilla[i+1][j-1].mina==true){
+                        cont++;
+                        }
+                    }catch(Exception miExcepción){}
+                    
+                    try{
+                        if(miCasilla[i+1][j].mina==true){
+                        cont++;
+                        }
+                    }catch(Exception miExcepción){}
+                    try{
+                        if(miCasilla[i+1][j+1].mina==true){
+                        cont++;
+                        }
+                    }catch(Exception miExcepción){}
+                    casilla[i][j].setText(String.valueOf(cont));
+                }
             }
         }
     }
@@ -94,16 +146,6 @@ public class Juego extends javax.swing.JFrame {
                     }
                 }
             }
-        }else{
-            int cont=0;
-            for(int i=0;i<3;i++){
-                for(int j=0;j<3;j++){
-                    if(miCasilla[a-i][a-j].mina==true){
-                        cont++;
-                    }
-                }
-            }
-            casilla[a][b].setText(String.valueOf(cont));
         }
     }
     
@@ -150,14 +192,8 @@ public class Juego extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        for (int i=0; i<10; i++){
-            for (int j=0; j<10; j++){
-                if(miCasilla[i][j].mina==true){
-                    botonsito[i][j].setVisible(false);
-                    casilla[i][j].setVisible(true);
-                }
-            }
-        }
+        crearCasilla();
+        ponerMinas();
     }//GEN-LAST:event_jButton1MouseClicked
 
     /**
