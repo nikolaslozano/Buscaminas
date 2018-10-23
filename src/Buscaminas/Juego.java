@@ -7,6 +7,7 @@ package Buscaminas;
 
 import static com.sun.java.accessibility.util.AWTEventMonitor.addActionListener;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,6 +35,7 @@ public class Juego extends javax.swing.JFrame {
     Casilla miCasilla[][]=new Casilla[10][10];
     Random aleatorio=new Random();
     File miArchivo = new File("Mina.jpg");
+    Font myFont = new Font("Tahoma",1,18);
     
     public Juego() {
         initComponents();
@@ -85,55 +87,53 @@ public class Juego extends javax.swing.JFrame {
             for(int j=0;j<10;j++){
                 if(miCasilla[i][j].mina==false){
                     int cont=0;
-                    try{
-                        if(miCasilla[i-1][j-1].mina==true){
-                        cont++;
-                        }
-                    }catch(Exception miExcepción){}
-                    try{
-                        if(miCasilla[i-1][j].mina==true){
-                        cont++;
-                        }
-                    }catch(Exception miExcepción){}
-                    
-                    try{
-                        if(miCasilla[i-1][j+1].mina==true){
-                        cont++;
-                        }
-                    }catch(Exception miExcepción){}
-                    
-                    try{
-                        if(miCasilla[i][j-1].mina==true){
-                        cont++;
-                        }
-                    }catch(Exception miExcepción){}
-                    try{
-                        if(miCasilla[i][j+1].mina==true){
-                        cont++;
-                        }
-                    }catch(Exception miExcepción){}
-                    
-                    try{
-                        if(miCasilla[i+1][j-1].mina==true){
-                        cont++;
-                        }
-                    }catch(Exception miExcepción){}
-                    
-                    try{
-                        if(miCasilla[i+1][j].mina==true){
-                        cont++;
-                        }
-                    }catch(Exception miExcepción){}
-                    try{
-                        if(miCasilla[i+1][j+1].mina==true){
-                        cont++;
-                        }
-                    }catch(Exception miExcepción){}
+                    for(int k=-1;k<2;k++)
+                    {
+                        for(int l=-1;l<2;l++)
+                        {
+                            try{
+                                if(miCasilla[i+k][j+l].mina==true){
+                                    cont++;
+                                }
+                            }
+                            catch(Exception miExcepción){}
+                    }
                     casilla[i][j].setText(String.valueOf(cont));
+                    casilla[i][j].setHorizontalAlignment(JLabel.CENTER);
+                    casilla[i][j].setVerticalAlignment(JLabel.CENTER);
+                    casilla[i][j].setFont(myFont);
+                    switch(cont){
+                        case 1:{
+                            casilla[i][j].setForeground(Color.blue);
+                        }break;
+                        case 2:{
+                            casilla[i][j].setForeground(Color.green.darker());
+                        }break;
+                        case 3:{
+                            casilla[i][j].setForeground(Color.red);
+                        }break;
+                        case 4:{
+                            casilla[i][j].setForeground(Color.BLUE.darker());
+                        }break;
+                        case 5:{
+                            casilla[i][j].setForeground(Color.RED.darker());
+                        }break;
+                        case 6:{
+                            casilla[i][j].setForeground(Color.magenta);
+                        }break;
+                        case 7:{
+                            casilla[i][j].setForeground(Color.black);
+                        }break;
+                        case 8:{
+                            casilla[i][j].setForeground(Color.gray);
+                        }break;
+                    }
                 }
             }
         }
     }
+    }
+    
     void verificarMinas(int a, int b){
         botonsito[a][b].setVisible(false);
         casilla[a][b].setVisible(true);
