@@ -146,6 +146,23 @@ public class Juego extends javax.swing.JFrame {
                     }
                 }
             }
+        }else{
+            if("0".equals(casilla[a][b].getText())){
+                casilla[a][b].setText("");
+                casillasVacías(a,b);
+            }
+        }
+    }
+    
+    void casillasVacías(int a, int b){
+        for(int i=-1;i<2;i++){
+            for(int j=-1;j<2;j++){
+                try{
+                    botonsito[a+i][b+j].setVisible(true);
+                    casilla[a+i][b+j].setVisible(true);
+                    verificarMinas(a+i,b+j);
+                }catch(Exception Excepción){}
+            }
         }
     }
     
